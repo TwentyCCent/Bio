@@ -3,22 +3,22 @@
 // Début de chaque page
 //include_once("donnees/autoload.php");
 
-session_start();
-if (isset($_SESSION['mess'])) {    // Message 
-    $mess = $_SESSION['mess'];
-} else {
-    $mess = "";
-}
-if (isset($pageAuthentification)) {
-    session_unset();
-} else {
-    $pageAuthentification = 0;
-}
-if (isset($_SESSION['admin'])) {
-    $admin = $_SESSION['admin'];
-} else {
-    $admin = -1;  // non authentifié
-}
+//session_start();
+//if (isset($_SESSION['mess'])) {    // Message 
+//    $mess = $_SESSION['mess'];
+//} else {
+//    $mess = "";
+//}
+//if (isset($pageAuthentification)) {
+//    session_unset();
+//} else {
+//    $pageAuthentification = 0;
+//}
+//if (isset($_SESSION['admin'])) {
+//    $admin = $_SESSION['admin'];
+//} else {
+//    $admin = -1;  // non authentifié
+//}
 ?>
 <!DOCTYPE html>
 <html>
@@ -53,7 +53,7 @@ if (isset($_SESSION['admin'])) {
                                 <div class="col-2 offset-1 m-search">
                                     <form class="d-flex">
                                         <input class="form-control me-2" type="search" placeholder="Recherche..." aria-label="Search">
-                                        <button class="btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
+                                        <button class="btn-outline-success" type="submit"><i class="fas fa-search fa-lg" ></i></button>
                                     </form>
                                 </div>
                             </div>

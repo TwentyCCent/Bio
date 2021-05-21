@@ -27,8 +27,10 @@ class GestionnaireBDD {
             } catch (PDOException $e) {
                 $this->erreurSQL($e->getMessage(), "Pb connexion", $dbh);
             }
-
             $this->_cnx = $dbh;
+        }
+        else{
+            return $this->_cnx;
         }
     }
 
@@ -47,7 +49,10 @@ class GestionnaireBDD {
 //        $req->bindValue("aa", $annee, PDO::PARAM_STR);
 //        $resultat = $req->execute();
         
-        $sql = "SELECT lot.id, designation, nbrProduits FROM produit INNER JOIN lot ON produit.id=lot.idProduit WHERE etat=6 AND EXISTS (SELECT * FROM facturedon WHERE YEAR(dateFacture) = ".$annee.") ORDER BY lot.id;";
+        $sql = "SELECT lot.id, designation, nbrProduits FROM produit INNER JOIN lot ON produit.id=lot.idProduit "
+            ."INNER JOIN lignefacture ON lot.id=lignefacture.idlot "
+            ."INNER JOIN facturedon ON idFacture=facturedon.id "
+            ."WHERE etat=6 AND YEAR(dateFacture)= $annee ORDER BY lot.id;";
         $resultat = $this->_cnx->query($sql);	// Execution de la requete
             
 	if ($resultat === false) {
@@ -71,8 +76,8 @@ class GestionnaireBDD {
     }
     
     // méthode retournant les montants cumulés des dons par type de produits
-    function readMtCumul(){       
-        $sql = "SELECT libelle, sum(valeurMarchandise) AS montant FROM bdbiocoop.valeurdon GROUP BY libelle;";
+    function readMtCumul($annee){       
+        $sql = "SELECT libelle, sum(valeurMarchandise) AS montant FROM bdbiocoop.valeurdon WHERE YEAR(dateFacture)=$annee GROUP BY libelle;";
 	$resultat = $this->_cnx->query($sql);	// Execution de la requete
 	if ($resultat === false) {
             $this->_cnx->afficherErreurSQL("Pb lors de la recherche", $sql);
@@ -83,7 +88,7 @@ class GestionnaireBDD {
     // méthode retournant la liste des années des facture de dons
     function readDonsAnnees(){
         $annees = array();
-        $sql = "SELECT DISTINCT YEAR(dateFacture) AS annee FROM facturedon;";
+        $sql = "SELECT DISTINCT YEAR(dateFacture) AS annee FROM facturedon ORDER BY annee DESC;";
 	$resultat = $this->_cnx->query($sql);	// Execution de la requete
 	if ($resultat === false) {
             $this->_cnx->afficherErreurSQL("Pb lors de la recherche", $sql);

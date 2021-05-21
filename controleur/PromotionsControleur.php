@@ -11,7 +11,7 @@
  *
  * @author Dominique_2
  */
-require '../donnees/GestionnaireBDD.php';
+require_once '../donnees/GestionnaireBDD.php';
 class PromotionsControleur {
 
     private $_leGestionnaire; // instance de la classe GestionnaireBDD

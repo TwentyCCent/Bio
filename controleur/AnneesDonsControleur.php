@@ -12,18 +12,17 @@
  * @author Vincent
  */
 require_once '../../donnees/GestionnaireBDD.php';
-class DonControleur {
+class AnneesDonsControleur {
 
-    //private $_leGestionnaire; // instance de la classe GestionnaireBDD
+    private $_leGestionnaire; // instance de la classe GestionnaireBDD
 
      public function __construct() {
         $this->_leGestionnaire = new GestionnaireBDD();  // connexion du serveur web à la base de données
     }
     
-    public function getDons($annee){      
-        $lesDons = $this->_leGestionnaire->readAllDons($annee);   
-        return $lesDons;
+    public function getAnneesDons(){      
+        $lesAnnees = $this->_leGestionnaire->readDonsAnnees(); 
+        return $lesAnnees;
     }
     
 }
-

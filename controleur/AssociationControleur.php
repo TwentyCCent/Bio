@@ -11,7 +11,7 @@
  *
  * @author Vincent
  */
-//require '../../donnees/GestionnaireBDD.php';
+require_once '../../donnees/GestionnaireBDD.php';
 class AssociationControleur {
 
     private $_leGestionnaire; // instance de la classe GestionnaireBDD

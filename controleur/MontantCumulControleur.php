@@ -11,7 +11,7 @@
  *
  * @author Vincent
  */
-require '../../donnees/GestionnaireBDD.php';
+require_once '../../donnees/GestionnaireBDD.php';
 class MontantCumulControleur {
 
     private $_leGestionnaire; // instance de la classe GestionnaireBDD
@@ -20,8 +20,8 @@ class MontantCumulControleur {
         $this->_leGestionnaire = new GestionnaireBDD();  // connexion du serveur web à la base de données
     }
     
-    public function getMtCumul(){      
-        $lesMontants = $this->_leGestionnaire->readMtCumul();      
+    public function getMtCumul($annee){      
+        $lesMontants = $this->_leGestionnaire->readMtCumul($annee);      
         return $lesMontants;
     }
     
