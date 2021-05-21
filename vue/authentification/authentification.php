@@ -22,4 +22,13 @@ if(isset($_POST['btnValider']))
         echo'</pre>';
     }
 ?>
+
+    <?php
+$current_dir = getcwd();
+$current_dir = str_replace("\\", "/", $current_dir);
+
+echo $current_dir;
+?>
+
+
 <?php include ("../include/finPage.inc.php"); ?>

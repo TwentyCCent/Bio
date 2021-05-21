@@ -1,7 +1,7 @@
 <?php
 // debutPage.php
 // Début de chaque page
-include_once("donnees/autoload.php");
+//include_once("donnees/autoload.php");
 
 session_start();
 if (isset($_SESSION['mess'])) {    // Message 
@@ -28,11 +28,11 @@ if (isset($_SESSION['admin'])) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="vue/css/normalize.css" rel="stylesheet" type="text/css"/>
         <link href="../css/normalize.css" rel="stylesheet" type="text/css"/>
-        <link href="vue/css/style.css" rel="stylesheet" type="text/css"/>
-        <link href="../css/style.css" rel="stylesheet" type="text/css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/> </head>
-
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/> 
+        <link href="vue/css/style.css?version=6" rel="stylesheet" type="text/css"/>
+        <link href="../css/style.css?version=6" rel="stylesheet" type="text/css"/>
+    </head>
     <body>      
         <header class='menu'>
             <div class="inner">
@@ -40,23 +40,25 @@ if (isset($_SESSION['admin'])) {
                     <div class="container-fluid">
                         <div class="row">
                             <div class="row">
-                                <div class="col-5 m-logo">
-                                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-                                        <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
-                                    </button>
-                                    <a class="navbar-brand" href="#">BIOCOOP</a>
+                                <div class="col-8 m-logo">
+                                    <div class="row">
+                                        <button class="col-2 navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                                            <span class="navbar-toggler-icon"><i class="fas fa-bars"></i></span>
+                                        </button>
+                                        <a class="col-2 navbar-brand" href="#">BIOCOOP</a>
+                                    </div>
                                     <p class='slog' style="white-space: nowrap">La bio qui vous rassemble</p>                   
                                 </div>
 
-                                <div class="col-4 offset-3 m-search">
+                                <div class="col-2 offset-1 m-search">
                                     <form class="d-flex">
-                                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                                        <button class="btn-outline-success" type="submit">Search</button>
+                                        <input class="form-control me-2" type="search" placeholder="Recherche..." aria-label="Search">
+                                        <button class="btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
                                     </form>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-8 offset-3 m-link">
+                                <div class="m-link">
                                     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                                         <ul class="navbar-nav me-auto mb-2 mb-lg-0 sm">
                                             <li class="nav-item">
@@ -69,7 +71,7 @@ if (isset($_SESSION['admin'])) {
                                                 <a class="nav-link" href="#" tabindex="-1" aria-disabled="">Services</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="vue/rapportDons/rapportPage.php">Rapport des dons</a>
+                                                <a class="nav-link" href="vue/rapportDons/rapportView.php">Rapport des dons</a>
                                             </li>
                                             <li class="nav-item">
                                                 <a class="nav-link" href="vue/authentification/authentification.php">Se connecter</a>

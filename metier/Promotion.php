@@ -78,9 +78,17 @@ class Promotion {
      * est supérieur ou égal au paramètre de la méthode
      * @param type réel  $pourcentageReduc
      */
-    public function getLesLignesPromoRed($pourcentageReduc) {
-        // À compléter
+    public function getLesLignesPromoRed($pourcentageReduc, $LignePromotion) {
+        $lesLignesPromoRed = [];
+        
+        if(isset($this->lesLignes())){
+            foreach ($this->lesLignes() as $ligne) {
+                $pReduc = $LignePromotion->getPourcentageReduction();
+                if($pReduc >= $pourcentageReduc){
+                    array_push($lesLignesPromoRed, $ligne);
+                }
+            }
+        }      
+        return $lesLignesPromoRed; 
     }
-    
-
 }

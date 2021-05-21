@@ -10,7 +10,6 @@ define("TYPE_LOG", 3);    // utilisation du fichier de log défini dans DEBUG_SQ
 include_once("autoload.php");
 
 class GestionnaireBDD {
-
     private $_cnx = NULL;   // la connexion à la base de données (une instance de la classe PDO)
 
     // constructeur ; il crée la connexion $cnx avec le SGBD
@@ -40,29 +39,135 @@ class GestionnaireBDD {
         return $this->_cnx;
     }
     
-    function readAllDons() {
-             
-        $sql = "SELECT lot.id, designation, nbrProduits FROM produit INNER JOIN lot ON produit.id=lot.idProduit WHERE etat=6;";
-	$resultat = $this->_cnx->query($sql);	// Execution de la requete
+    
+    // méthode retournant la liste des dons par identifiant de lot, du libellé de FamilleProduit et nombre de produit par lot
+    function readAllDons($annee) {  
+//        $sql = "SELECT lot.id, designation, nbrProduits FROM produit INNER JOIN lot ON produit.id=lot.idProduit WHERE etat=6 AND EXISTS (SELECT * FROM facturedon WHERE YEAR(dateFacture) = ':aa') ORDER BY lot.id;";	
+//        $req = $this->_cnx->prepare($sql);
+//        $req->bindValue("aa", $annee, PDO::PARAM_STR);
+//        $resultat = $req->execute();
+        
+        $sql = "SELECT lot.id, designation, nbrProduits FROM produit INNER JOIN lot ON produit.id=lot.idProduit WHERE etat=6 AND EXISTS (SELECT * FROM facturedon WHERE YEAR(dateFacture) = ".$annee.") ORDER BY lot.id;";
+        $resultat = $this->_cnx->query($sql);	// Execution de la requete
+            
 	if ($resultat === false) {
-            $this->_laConnexion->afficherErreurSQL("Pb lors de la recherche des categories", $sql);
+            $this->_cnx->afficherErreurSQL("Pb lors de la recherche", $sql);
 	}
         return $resultat;
     }
     
+    // méthode retournant la liste des associations caricatives
+     function readAllAsso(){       
+        $sql = "SELECT nom, adresse FROM association WHERE NOT EXISTS (SELECT idAssociation FROM facturedon WHERE facturedon.idAssociation=association.id);";
+	$resultat = $this->_cnx->query($sql);	// Execution de la requete
+	if ($resultat === false) {
+            $this->_cnx->afficherErreurSQL("Pb lors de la recherche", $sql);
+	}
+        
+        return $resultat;
+        
+        
+        
+    }
+    
+    // méthode retournant les montants cumulés des dons par type de produits
+    function readMtCumul(){       
+        $sql = "SELECT libelle, sum(valeurMarchandise) AS montant FROM bdbiocoop.valeurdon GROUP BY libelle;";
+	$resultat = $this->_cnx->query($sql);	// Execution de la requete
+	if ($resultat === false) {
+            $this->_cnx->afficherErreurSQL("Pb lors de la recherche", $sql);
+	}
+        return $resultat;
+    }
+    
+    // méthode retournant la liste des années des facture de dons
+    function readDonsAnnees(){
+        $annees = array();
+        $sql = "SELECT DISTINCT YEAR(dateFacture) AS annee FROM facturedon;";
+	$resultat = $this->_cnx->query($sql);	// Execution de la requete
+	if ($resultat === false) {
+            $this->_cnx->afficherErreurSQL("Pb lors de la recherche", $sql);
+	}
+        $uneLigne = $resultat->fetch();
+        while ($uneLigne) {           
+             $anneeDon = $uneLigne["annee"];
+             array_push($annees, $anneeDon);
+             $uneLigne = $resultat->fetch(); // Lecture ligne suivante	
+         }
+        return $annees;
+    }
+    
     // méthode retournant un objet FamilleProduit à partir de son identifiant (ou null si l'identifiant n'existe pas)
     public function getUneFamille($unIdFamille) {
-        return new FamilleProduit(1, "Alimentation"); // À modifier
+        $uneFamille = null;
+        
+        if(isset($unIdFamille)){
+            // préparation de la requête 
+            $txtReq = "SELECT id, libelle FROM familleproduit WHERE id = :idFamille;";
+            $req = $this->_cnx->prepare($txtReq);
+            // valorisation du paramètre
+            $req->bindValue("idFamille", $unIdFamille, PDO::PARAM_INT);
+            // exécution de la requête SQL
+            $resultat = $req->execute();
+            if ($resultat === false) {
+                $sql = $this->erreurSQL("Pb lors de la recherche des promotions. ", $req);
+            }
+            $uneLigne = $req->fetch(PDO::FETCH_OBJ);
+            $uneFamille = new FamilleProduit($uneLigne->id, $uneLigne->libelle);
+        }
+        return $uneFamille; // À modifier
     }
 
     // méthode retournant un objet Promotion à partir de son identifiant (ou null si l'identifiant n'existe pas)
     public function getUnePromotion($unIdPromotion) {
+        $unePromotion = null;
+        
+        if(isset($unIdPromotion)){
+            // préparation de la requête 
+            $txtReq = "SELECT * FROM promotion WHERE id = :idPromo;";
+            $req = $this->_cnx->prepare($txtReq);
+            // valorisation du paramètre
+            $req->bindValue("idPromo", $unIdPromotion, PDO::PARAM_INT);
+            // exécution de la requête SQL
+            $resultat = $req->execute();
+            if ($resultat === false) {
+                $sql = $this->erreurSQL("Pb lors de la recherche des promotions. ", $req);
+            }
+            $uneLigne = $req->fetch(PDO::FETCH_OBJ);
+            $unePromotion = new Promotion($uneLigne->id, $uneLigne->libelle, $uneLigne->mois, $uneLigne->annee, $this->getUneFamille($uneLigne->id));
+        }
+        return $unePromotion;
         
     }
 
     // méthode retournant les lignes d'une promotion (collection d'objets LignePromotion)
     public function getLesLignesPromotion($unIdPromotion) {
-        return new LignePromotion(1, "2021-04-10", "2021-04-20", 1.8, 3.5); // À modifier
+        $lignesPromotions = array();
+        // préparation de la requête 
+        $txtReq = "SELECT designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromo, prix FROM lignepromotion "
+                . "INNER JOIN produit ON lignepromotion.idProduit = produit.id INNER JOIN tarif ON produit.id = tarif.idProduit "
+                . "WHERE lignepromotion.idProduit = :idPromo;";
+        $req = $this->_cnx->prepare($txtReq);
+        // valorisation du paramètre
+        $req->bindValue("idPromo", $unIdPromotion, PDO::PARAM_INT);
+        // exécution de la requête SQL
+        $resultat = $req->execute();
+        if ($resultat === false) {
+                $sql = $this->erreurSQL("Pb lors de la recherche des promotions. ", $req);
+            }            
+        $uneLigne = $req->fetch(PDO::FETCH_OBJ);
+        while ($uneLigne != false) {
+            // création d'un objet Promotion
+            $ligne = new LignePromotion($uneLigne->designation, $uneLigne->dateDebut, $uneLigne->dateFin, $uneLigne->prixPromo, $uneLigne->prix);
+            // ajout de l'objet à la collection
+            $lignesPromotions[] = $ligne;
+            // lit la ligne suivante sous forme d'objet
+            $uneLigne = $req->fetch(PDO::FETCH_OBJ);
+        }
+        
+        $req->closeCursor(); // libère les ressources du jeu de données
+           
+        return new $lignesPromotions(1, "2021-04-10", "2021-04-20", 1.8, 3.5); 
     }
 
     // méthode retournant les promotions (collection d'objets Promotion) d'un mois et d'une année donnés

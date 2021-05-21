@@ -7,11 +7,11 @@
  */
 
 /**
- * Description of PromotionsControleur
+ * Description of DonControleur
  *
- * @author Dominique_2
+ * @author Vincent
  */
-require '../donnees/GestionnaireBDD.php';
+require '../../donnees/GestionnaireBDD.php';
 class DonControleur {
 
     private $_leGestionnaire; // instance de la classe GestionnaireBDD
@@ -20,10 +20,8 @@ class DonControleur {
         $this->_leGestionnaire = new GestionnaireBDD();  // connexion du serveur web à la base de données
     }
     
-    public function getDons(){
-        
-        $lesDons = $this->_leGestionnaire->readAllDons();
-        
+    public function getDons($annee){      
+        $lesDons = $this->_leGestionnaire->readAllDons($annee);   
         return $lesDons;
     }
     

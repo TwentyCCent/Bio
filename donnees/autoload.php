@@ -12,5 +12,4 @@ spl_autoload_register("chargerClasse");
  */
 function chargerClasse($classe) {
     require "../metier/".$classe.".php";
-    require "../donnees/".$classe.".php";
 }
