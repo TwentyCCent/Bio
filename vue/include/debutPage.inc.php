@@ -71,7 +71,7 @@
                                                 <a class="nav-link" href="#" tabindex="-1" aria-disabled="">Promotion</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="vue/connect/donation.php">Donation</a>
+                                                <a class="nav-link" href="vue/dirigeant/donation.php">Donation</a>
                                             </li>
                                             <li class="nav-item">
                                                 <a class="nav-link" href="vue/authentification/authentification.php">Se connecter</a>
