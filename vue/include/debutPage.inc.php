@@ -30,8 +30,8 @@
         <link href="../css/normalize.css" rel="stylesheet" type="text/css"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/> 
-        <link href="vue/css/style.css?version=6" rel="stylesheet" type="text/css"/>
-        <link href="../css/style.css?version=6" rel="stylesheet" type="text/css"/>
+        <link href="vue/css/style.css?version=7" rel="stylesheet" type="text/css"/>
+        <link href="../css/style.css?version=7" rel="stylesheet" type="text/css"/>
     </head>
     <body>      
         <header class='menu'>
@@ -65,13 +65,13 @@
                                                 <a class="nav-link active" aria-current="page" href="index.php"><i class="fas fa-home"></i> Accueil</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="#">A propos</a>
+                                                <a class="nav-link" href="#">Évaluation</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="#" tabindex="-1" aria-disabled="">Services</a>
+                                                <a class="nav-link" href="#" tabindex="-1" aria-disabled="">Promotion</a>
                                             </li>
                                             <li class="nav-item">
-                                                <a class="nav-link" href="vue/rapportDons/rapportView.php">Rapport des dons</a>
+                                                <a class="nav-link" href="vue/connect/donation.php">Donation</a>
                                             </li>
                                             <li class="nav-item">
                                                 <a class="nav-link" href="vue/authentification/authentification.php">Se connecter</a>

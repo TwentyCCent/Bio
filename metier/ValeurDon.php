@@ -22,4 +22,11 @@ class ValeurDon {
         return $this->_montant;
     }
     
+    function setLibelle($libelle): void {
+        $this->_libelle=$libelle;
+    }
+    
+    function setMontant($montant): void {
+        $this->_montant=$montant;
+    }
 }

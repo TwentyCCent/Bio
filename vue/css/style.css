@@ -279,7 +279,7 @@ a.nav-link{
   color:           #ffffff;
   text-align:      center;
   margin-left: 40px;
-  font-size:       1.3em;
+  font-size:       1.25em;
   border-bottom: 3px solid transparent;
   transition: all 0.2s ease-in-out
 }
@@ -438,7 +438,8 @@ header {
 */
 
 .container{
-    width: 80%;
+    width: 100%;
+    max-width: 1480px;
     padding-top: 30px;
     padding-bottom: 50px;
     min-height: 86.5%;

@@ -69,8 +69,13 @@ class LignePromotion {
      * ou 100*(1-(tarif réduit/tarif de base))
      */
     public function getPourcentageReduction() {
+        if(($this->prix()>0) && ($this->prix()<$this->prixBase()) && ($this->prixBase()>0)){
         $pourcentage = (1-($this->prix()/$this->prixBase()))*100;
         return number_format($pourcentage, 2, '.', '');
+        }
+        else{
+            return "Prix du produit en promotion incorrect";
+        }
     }
 
 }

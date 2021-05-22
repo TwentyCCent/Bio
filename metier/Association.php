@@ -37,4 +37,26 @@ class Association {
     function tel() {
         return $this->_tel;
     }
+    
+    function setId($_id): void {
+        $this->_id = $_id;
+    }
+
+    function setNom($_nom): void {
+        $this->_nom = $_nom;
+    }
+
+    function setAdresse($_adresse): void {
+        $this->_adresse = $_adresse;
+    }
+
+    function setAdresseMail($_adresseMail): void {
+        $this->_adresseMail = $_adresseMail;
+    }
+
+    function setTel($_tel): void {
+        $this->_tel = $_tel;
+    }
+
+
 }

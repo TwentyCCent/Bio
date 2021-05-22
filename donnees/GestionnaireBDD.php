@@ -43,46 +43,97 @@ class GestionnaireBDD {
     
     
     // méthode retournant la liste des dons par identifiant de lot, du libellé de FamilleProduit et nombre de produit par lot
-    function readAllDons($annee) {  
-//        $sql = "SELECT lot.id, designation, nbrProduits FROM produit INNER JOIN lot ON produit.id=lot.idProduit WHERE etat=6 AND EXISTS (SELECT * FROM facturedon WHERE YEAR(dateFacture) = ':aa') ORDER BY lot.id;";	
-//        $req = $this->_cnx->prepare($sql);
-//        $req->bindValue("aa", $annee, PDO::PARAM_STR);
-//        $resultat = $req->execute();
-        
+    function readAllDons($annee) {
+    // Requete non paramètrée
+    //        $sql = "SELECT lot.id, designation, nbrProduits FROM produit "
+    //            ."INNER JOIN lot ON produit.id=lot.idProduit "
+    //            ."INNER JOIN lignefacture ON lot.id=lignefacture.idlot "
+    //            ."INNER JOIN facturedon ON idFacture=facturedon.id "
+    //            ."WHERE etat=6 AND YEAR(dateFacture)= $annee ORDER BY lot.id;";
+    //        $resultat = $this->_cnx->query($sql);	// Execution de la requete
+    //            
+    //	if ($resultat === false) {
+    //            $this->_cnx->afficherErreurSQL("Pb lors de la recherche", $sql);
+    //	}
+    //        return $resultat;
+            
+  
         $sql = "SELECT lot.id, designation, nbrProduits FROM produit INNER JOIN lot ON produit.id=lot.idProduit "
             ."INNER JOIN lignefacture ON lot.id=lignefacture.idlot "
             ."INNER JOIN facturedon ON idFacture=facturedon.id "
-            ."WHERE etat=6 AND YEAR(dateFacture)= $annee ORDER BY lot.id;";
-        $resultat = $this->_cnx->query($sql);	// Execution de la requete
-            
-	if ($resultat === false) {
-            $this->_cnx->afficherErreurSQL("Pb lors de la recherche", $sql);
-	}
-        return $resultat;
+            ."WHERE etat=6 AND YEAR(dateFacture)= :aa ORDER BY lot.id;";
+        $req = $this->_cnx->prepare($sql);
+        $req->bindValue("aa", $annee, PDO::PARAM_STR);
+        $resultat = $req->execute();
+        
+        if ($resultat === false) {
+                $sql = $this->erreurSQL("Pb lors de la recherche des promotions. ", $req);
+            }   
+        
+        $lesDons = array();
+        // lit la première ligne du résultat de la requête. $uneLigne est une référence à un objet dont les 
+        // propriétés correspondent aux noms des colonnes de la requête
+        // ou bien la valeur booléenne false s’il n’y a plus de ligne à lire dans le jeu de résultats
+        $uneLigne = $req->fetch(PDO::FETCH_OBJ);
+        while ($uneLigne != false) {
+            // création d'un objet Don
+            $unDon = new Don($uneLigne->id, $uneLigne->designation, $uneLigne->nbrProduits);
+            // ajout de l'objet à la collection
+            $lesDons[] = $unDon;
+            // lit la ligne suivante sous forme d'objet
+            $uneLigne = $req->fetch(PDO::FETCH_OBJ);
+        }
+        
+        $req->closeCursor(); // libère les ressources du jeu de données
+        return $lesDons; // fournit la collection      
     }
     
     // méthode retournant la liste des associations caricatives
-     function readAllAsso(){       
-        $sql = "SELECT nom, adresse FROM association WHERE NOT EXISTS (SELECT idAssociation FROM facturedon WHERE facturedon.idAssociation=association.id);";
-	$resultat = $this->_cnx->query($sql);	// Execution de la requete
-	if ($resultat === false) {
-            $this->_cnx->afficherErreurSQL("Pb lors de la recherche", $sql);
-	}
+     function readAllAsso($annee){       
+        $sql = "SELECT * FROM association WHERE NOT EXISTS (SELECT idAssociation FROM facturedon WHERE facturedon.idAssociation=association.id AND YEAR(dateFacture) = :aa);";
+	$req = $this->_cnx->prepare($sql);
+        $req->bindValue("aa", $annee, PDO::PARAM_STR);
+        $resultat = $req->execute();
         
-        return $resultat;
+        if ($resultat === false) {
+                $sql = $this->erreurSQL("Pb lors de la recherche des promotions. ", $req);
+            }   
         
-        
-        
+        $lesAssos=[];
+        $uneLigne = $req->fetch(PDO::FETCH_OBJ);
+        while ($uneLigne != false) {
+            // création d'un objet ValeurDon
+            $uneAsso = new Association($uneLigne->id, $uneLigne->nom, $uneLigne->adresse, $uneLigne->adressemail, $uneLigne->tel);
+            // ajout de l'objet à la collection
+            $lesAssos[] = $uneAsso;
+            // lit la ligne suivante sous forme d'objet
+            $uneLigne = $req->fetch(PDO::FETCH_OBJ);
+        }        
+        $req->closeCursor(); // libère les ressources du jeu de données        
+        return $lesAssos;    
     }
     
     // méthode retournant les montants cumulés des dons par type de produits
     function readMtCumul($annee){       
-        $sql = "SELECT libelle, sum(valeurMarchandise) AS montant FROM bdbiocoop.valeurdon WHERE YEAR(dateFacture)=$annee GROUP BY libelle;";
-	$resultat = $this->_cnx->query($sql);	// Execution de la requete
-	if ($resultat === false) {
-            $this->_cnx->afficherErreurSQL("Pb lors de la recherche", $sql);
-	}
-        return $resultat;
+        $sql = "SELECT libelle, sum(valeurMarchandise) AS montant FROM bdbiocoop.valeurdon WHERE YEAR(dateFacture) = :aa GROUP BY libelle;";       
+	$req = $this->_cnx->prepare($sql);
+        $req->bindValue("aa", $annee, PDO::PARAM_STR);
+        $resultat = $req->execute();        
+        if ($resultat === false) {
+                $sql = $this->erreurSQL("Pb lors de la recherche des promotions. ", $req);
+            }           
+        $lesMt = array();
+        $uneLigne = $req->fetch(PDO::FETCH_OBJ);
+        while ($uneLigne != false) {
+            // création d'un objet ValeurDon
+            $unMt = new ValeurDon($uneLigne->libelle, $uneLigne->montant);
+            // ajout de l'objet à la collection
+            $lesMt[] = $unMt;
+            // lit la ligne suivante sous forme d'objet
+            $uneLigne = $req->fetch(PDO::FETCH_OBJ);
+        }        
+        $req->closeCursor(); // libère les ressources du jeu de données        
+        return $lesMt;
     }
     
     // méthode retournant la liste des années des facture de dons
@@ -120,7 +171,7 @@ class GestionnaireBDD {
             $uneLigne = $req->fetch(PDO::FETCH_OBJ);
             $uneFamille = new FamilleProduit($uneLigne->id, $uneLigne->libelle);
         }
-        return $uneFamille; // À modifier
+        return $uneFamille; 
     }
 
     // méthode retournant un objet Promotion à partir de son identifiant (ou null si l'identifiant n'existe pas)
