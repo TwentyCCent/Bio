@@ -16,14 +16,16 @@ class GestionnaireBDD {
     public function __construct() {
         if (is_null($this->_cnx)) {
             // Définition des variables de connexion
-            $user = "publicBiocoop";
-            $pass = "mdpBiocoop";
+            $user = "root";//"publicBiocoop";
+            $pass = "root";//"cnatksM0hBFpUb8l";
             $dsn = 'mysql:host=localhost;dbname=bdbiocoop'; //Data Source Name
             // Connexion 
             try {
-                $dbh = new PDO($dsn, $user, $pass, array(
+                $dbh = new PDO($dsn, $user, $pass, array(                   
                     PDO::ATTR_PERSISTENT => true, // Connexion persistante
                     PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\''));
+                //$dbh->setAttribute(PDO::SQLSRV_ATTR_FETCHES_DATETIME_TYPE, true);
+                
             } catch (PDOException $e) {
                 $this->erreurSQL($e->getMessage(), "Pb connexion", $dbh);
             }
@@ -43,20 +45,7 @@ class GestionnaireBDD {
     
     
     // méthode retournant la liste des dons par identifiant de lot, du libellé de FamilleProduit et nombre de produit par lot
-    function readAllDons($annee) {
-    // Requete non paramètrée
-    //        $sql = "SELECT lot.id, designation, nbrProduits FROM produit "
-    //            ."INNER JOIN lot ON produit.id=lot.idProduit "
-    //            ."INNER JOIN lignefacture ON lot.id=lignefacture.idlot "
-    //            ."INNER JOIN facturedon ON idFacture=facturedon.id "
-    //            ."WHERE etat=6 AND YEAR(dateFacture)= $annee ORDER BY lot.id;";
-    //        $resultat = $this->_cnx->query($sql);	// Execution de la requete
-    //            
-    //	if ($resultat === false) {
-    //            $this->_cnx->afficherErreurSQL("Pb lors de la recherche", $sql);
-    //	}
-    //        return $resultat;
-            
+    function readAllDons($annee) {       
   
         $sql = "SELECT lot.id, designation, nbrProduits FROM produit INNER JOIN lot ON produit.id=lot.idProduit "
             ."INNER JOIN lignefacture ON lot.id=lignefacture.idlot "
@@ -90,7 +79,8 @@ class GestionnaireBDD {
     
     // méthode retournant la liste des associations caricatives
      function readAllAsso($annee){       
-        $sql = "SELECT * FROM association WHERE NOT EXISTS (SELECT idAssociation FROM facturedon WHERE facturedon.idAssociation=association.id AND YEAR(dateFacture) = :aa);";
+        $sql = "SELECT * FROM association WHERE NOT EXISTS (SELECT idAssociation FROM facturedon "
+                . "WHERE facturedon.idAssociation=association.id AND YEAR(dateFacture) = :aa);";
 	$req = $this->_cnx->prepare($sql);
         $req->bindValue("aa", $annee, PDO::PARAM_STR);
         $resultat = $req->execute();
@@ -115,7 +105,8 @@ class GestionnaireBDD {
     
     // méthode retournant les montants cumulés des dons par type de produits
     function readMtCumul($annee){       
-        $sql = "SELECT libelle, sum(valeurMarchandise) AS montant FROM bdbiocoop.valeurdon WHERE YEAR(dateFacture) = :aa GROUP BY libelle;";       
+        $sql = "SELECT libelle, sum(valeurMarchandise) AS montant FROM bdbiocoop.valeurdon "
+                . "WHERE YEAR(dateFacture) = :aa GROUP BY libelle;";       
 	$req = $this->_cnx->prepare($sql);
         $req->bindValue("aa", $annee, PDO::PARAM_STR);
         $resultat = $req->execute();        
@@ -156,9 +147,8 @@ class GestionnaireBDD {
     // méthode retournant un objet FamilleProduit à partir de son identifiant (ou null si l'identifiant n'existe pas)
     public function getUneFamille($unIdFamille) {
         $uneFamille = null;
-        
         if(isset($unIdFamille)){
-            // préparation de la requête 
+            // préparation de la requête // id, libelle
             $txtReq = "SELECT id, libelle FROM familleproduit WHERE id = :idFamille;";
             $req = $this->_cnx->prepare($txtReq);
             // valorisation du paramètre
@@ -171,16 +161,15 @@ class GestionnaireBDD {
             $uneLigne = $req->fetch(PDO::FETCH_OBJ);
             $uneFamille = new FamilleProduit($uneLigne->id, $uneLigne->libelle);
         }
-        return $uneFamille; 
+        return $uneFamille->libelle(); 
     }
 
     // méthode retournant un objet Promotion à partir de son identifiant (ou null si l'identifiant n'existe pas)
     public function getUnePromotion($unIdPromotion) {
         $unePromotion = null;
-        
         if(isset($unIdPromotion)){
             // préparation de la requête 
-            $txtReq = "SELECT * FROM promotion WHERE id = :idPromo;";
+            $txtReq = "SELECT id, libelle, mois, annee FROM promotion WHERE id = :idPromo;";
             $req = $this->_cnx->prepare($txtReq);
             // valorisation du paramètre
             $req->bindValue("idPromo", $unIdPromotion, PDO::PARAM_INT);
@@ -190,40 +179,53 @@ class GestionnaireBDD {
                 $sql = $this->erreurSQL("Pb lors de la recherche des promotions. ", $req);
             }
             $uneLigne = $req->fetch(PDO::FETCH_OBJ);
-            $unePromotion = new Promotion($uneLigne->id, $uneLigne->libelle, $uneLigne->mois, $uneLigne->annee, $this->getUneFamille($uneLigne->id));
+            $unePromotion = new Promotion($uneLigne->id, $uneLigne->libelle, $uneLigne->mois,
+                    $uneLigne->annee, $this->getUneFamille($uneLigne->id));
         }
-        return $unePromotion;
-        
+        return $unePromotion;  
     }
 
     // méthode retournant les lignes d'une promotion (collection d'objets LignePromotion)
-    public function getLesLignesPromotion($unIdPromotion) {
+    public function getLesLignesPromotion($unIdPromotion) { 
         $lignesPromotions = array();
-        // préparation de la requête 
-        $txtReq = "SELECT designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromo, prix FROM lignepromotion "
-                . "INNER JOIN produit ON lignepromotion.idProduit = produit.id INNER JOIN tarif ON produit.id = tarif.idProduit "
-                . "WHERE lignepromotion.idProduit = :idPromo;";
-        $req = $this->_cnx->prepare($txtReq);
+        $txtReq = "SELECT produit.id, designation, DATE_FORMAT(lignepromotion.dateDebut, '%d/%m/%Y') AS dateDebut, "
+                . "DATE_FORMAT(lignepromotion.dateFin, '%d/%m/%Y') AS dateFin, prixPromo, "
+                . "lignepromotion.dateFin AS datePrix FROM lignepromotion "
+                . "INNER JOIN produit ON lignepromotion.idProduit = produit.id " 
+                . "WHERE lignepromotion.idPromotion = :idPromo;";        
+        //$options = array(PDO::SQLSRV_ATTR_FETCHES_DATETIME_TYPE => true);
+        $req = $this->_cnx->prepare($txtReq/*, $options*/); 
         // valorisation du paramètre
         $req->bindValue("idPromo", $unIdPromotion, PDO::PARAM_INT);
         // exécution de la requête SQL
         $resultat = $req->execute();
         if ($resultat === false) {
-                $sql = $this->erreurSQL("Pb lors de la recherche des promotions. ", $req);
-            }            
+                $sql = $this->erreurSQL("Pb lors de la recherche des lignes de promotions. ", $req);
+            }     
+            
         $uneLigne = $req->fetch(PDO::FETCH_OBJ);
-        while ($uneLigne != false) {
-            // création d'un objet Promotion
-            $ligne = new LignePromotion($uneLigne->designation, $uneLigne->dateDebut, $uneLigne->dateFin, $uneLigne->prixPromo, $uneLigne->prix);
+        while ($uneLigne != false) {         
+            $reqPrixBase = "SELECT getPrix(:idProduit, :date) AS prix;";  
+            $reqL = $this->_cnx->prepare($reqPrixBase);
+            //essai entrée paramètres id et date pour obtenir le tarif de base correspondant à la période
+            $reqL->bindParam(":idProduit", $uneLigne->id, PDO::PARAM_INT);
+            $reqL->bindParam(":date", $uneLigne->datePrix, PDO::PARAM_STR);
+            $resultat = $reqL->execute();
+            if ($resultat === false) {
+                $sql = $this->erreurSQL("Pb lors de la recherche des promotions. ", $reqL);
+            }         
+            $resultPrix = $reqL->fetch(PDO::FETCH_OBJ);
+            // création d'un objet LignePromotion   date_format($uneLigne->dateDebut, 'd/m/Y')
+            $ligne = new LignePromotion($uneLigne->id, $uneLigne->designation, $uneLigne->dateDebut,
+                    $uneLigne->dateFin, $uneLigne->prixPromo, $resultPrix->prix);
             // ajout de l'objet à la collection
             $lignesPromotions[] = $ligne;
             // lit la ligne suivante sous forme d'objet
             $uneLigne = $req->fetch(PDO::FETCH_OBJ);
         }
-        
         $req->closeCursor(); // libère les ressources du jeu de données
-           
-        return new $lignesPromotions(1, "2021-04-10", "2021-04-20", 1.8, 3.5); 
+        return $lignesPromotions;
+        //return new $lignesPromotions(1, "2021-04-10", "2021-04-20", 1.8, 3.5); 
     }
 
     // méthode retournant les promotions (collection d'objets Promotion) d'un mois et d'une année donnés
@@ -248,9 +250,9 @@ class GestionnaireBDD {
         $uneLigne = $req->fetch(PDO::FETCH_OBJ);
         while ($uneLigne != false) {
             // création d'un objet Promotion
-            $unePromotion = new Promotion($uneLigne->id, $uneLigne->libelle, $unMois, $uneAnnee, $this->getUneFamille($uneLigne->idFamille),
-                    $this->getLesLignesPromotion($uneLigne->id));
-            // ajout de l'objet à la collection
+            $unePromotion = new Promotion($uneLigne->id, $uneLigne->libelle, $unMois, $uneAnnee, $this->getUneFamille($uneLigne->idFamille), $this->getLesLignesPromotion($uneLigne->id));
+            
+    // ajout de l'objet à la collection
             $lesPromotions[] = $unePromotion;
             // lit la ligne suivante sous forme d'objet
             $uneLigne = $req->fetch(PDO::FETCH_OBJ);
@@ -259,7 +261,56 @@ class GestionnaireBDD {
         $req->closeCursor(); // libère les ressources du jeu de données
         return $lesPromotions; // fournit la collection        
     }
-
+    
+    // méthode retournant un utilisateur à partir de son mail
+    public function getUser($mail)
+    {   $unUtilisateur="";
+        $sql = "SELECT id, nom, prenom, password, inscriptionDate, statut FROM users WHERE adresseMail = :mail;";
+        $req = $this->_cnx->prepare($sql);
+  
+        // valorisation du paramètre mail
+        $req->bindValue("mail", $mail, PDO::PARAM_STR);
+        $resultat = $req->execute();
+        if ($resultat === false) {
+            $sql = $this->erreurSQL("Pb lors de votre connexion. ", $req);
+        }
+        
+        $uneLigne = $req->fetch(PDO::FETCH_OBJ);
+        if($uneLigne !== false){
+            $unUtilisateur = new Utilisateur($uneLigne->id, $uneLigne->nom, $uneLigne->prenom, $mail, $uneLigne->password, $uneLigne->inscriptionDate, $uneLigne->statut);
+        }
+        $req->closeCursor();
+        return $unUtilisateur;
+    }
+    
+    // méthode créant un nouvel utilisateur 
+     public function insertAdherent($civilite, $nom, $prenom, $mail, $hash)
+    {
+        $sql = "INSERT INTO users (`civilite`, `nom`, `prenom`, `adresseMail`, `password`, `statut`) "
+                ."VALUES (:civilite, :nom, :prenom, :mail, :hash, 2);";
+        $req = $this->_cnx->prepare($sql);
+        
+        // valorisation du paramètre mail
+        $req->bindValue("civilite", $civilite, PDO::PARAM_STR);
+        $req->bindValue("nom", $nom, PDO::PARAM_STR);
+        $req->bindValue("prenom", $prenom, PDO::PARAM_STR);
+        $req->bindValue("mail", $mail, PDO::PARAM_STR);
+        $req->bindValue("hash", $hash, PDO::PARAM_STR);
+        $req->bindValue("mail", $mail, PDO::PARAM_STR);
+        
+        $resultat = $req->execute();
+        if ($resultat === false) {
+            $sql = $this->erreurSQL("Pb lors de votre connexion. ", $req);
+            return false;
+        }
+        else{
+           $req->closeCursor();
+            return true; 
+        }
+        
+    }
+    
+    
     /** afficherErreurSQL : 
      *  Ajout message d'erreur dans le fichier log, fin de l'application
      *  @param $message	: message a afficher
@@ -292,4 +343,6 @@ class GestionnaireBDD {
         }
         die("<p id='erreur1'>Désolé, site actuellement indisponible </p>");
     }
+    
+    
 }

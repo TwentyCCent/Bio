@@ -23,8 +23,11 @@ class Promotion {
         $this->setLaFamille($uneFamille);
         $this->setLesLignes($desLignes);
     }
-
+    
+    
+    
     // les accesseurs
+    //--------guetteur
     public function id() {
         return $this->_id;
     }
@@ -48,7 +51,8 @@ class Promotion {
     public function lesLignes() {
         return $this->_lesLignes;
     }
-
+    
+    //----------setteur
     function setId($id): void {
         $this->_id = $id;
     }
@@ -74,21 +78,19 @@ class Promotion {
     }
 
     /**
-     * Méthode qui retourne les lignes de promotions pour lesquelles le pourcentage de réduction 
+     * Méthode qui met à jour les lignes de promotions pour lesquelles le pourcentage de réduction 
      * est supérieur ou égal au paramètre de la méthode
      * @param type réel  $pourcentageReduc
      */
-    public function getLesLignesPromoRed($pourcentageReduc, $LignePromotion) {
+    public function getLesLignesPromoRed($pourcentageReduc): void {
         $lesLignesPromoRed = [];
-        
-        if(isset($this->lesLignes())){
+        if(count($this->lesLignes())>0){
             foreach ($this->lesLignes() as $ligne) {
-                $pReduc = $LignePromotion->getPourcentageReduction();
-                if($pReduc >= $pourcentageReduc){
+                if(end($ligne) >= $pourcentageReduc){
                     array_push($lesLignesPromoRed, $ligne);
                 }
             }
         }      
-        return $lesLignesPromoRed; 
+        $this->_lesLignes = $lesLignesPromoRed; 
     }
 }

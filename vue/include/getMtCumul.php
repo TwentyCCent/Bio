@@ -1,15 +1,16 @@
 <?php
-require '../../controleur/MontantCumulControleur.php';
+
+require_once '../../controleur/DonControleur.php';
 
 // Recherche si une année est sélectionnée
-if (isset($_GET['selectAnnee']) && isset($_GET['validAnnee'])) 
+if (isset($_GET['selectAnnee'])) 
 {
     afficherMt();
 }
 
 function afficherMt() {
     $annee = $_GET['selectAnnee'];
-    $MtCumulCtrl = new MontantCumulControleur();
+    $MtCumulCtrl = new DonControleur();
     $lesMontants = $MtCumulCtrl->getMtCumul($annee);
     echo $lesMontants;
 }

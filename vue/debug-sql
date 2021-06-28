@@ -1,0 +1,195 @@
+
+***Erreur SQL*** 2021-05-25 17-16-55 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des promotions. 
+	SQL: [265] SELECT produit.id, designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromo FROM lignepromotion INNER JOIN produit ON lignepromotion.idProduit = produit.id INNER JOIN tarif ON produit.id = tarif.idProduit WHERE lignepromotion.idPromotion = :idPromo;
+	Erreur: 
+***Erreur SQL*** 2021-05-25 18-43-36 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des promotions. 
+	Sent SQL: [257] SELECT produit.id, designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromoFROM lignepromotion INNER JOIN produit ON lignepromotion.idProduit = produit.id INNER JOIN tarif ON produit.id = tarif.idProduit WHERE lignepromotion.idPromotion = 1;
+	Erreur: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INNER JOIN produit ON lignepromotion.idProduit = produit.id INNER JOIN tarif ON ' at line 1
+***Erreur SQL*** 2021-05-25 18-43-40 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des promotions. 
+	Sent SQL: [257] SELECT produit.id, designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromoFROM lignepromotion INNER JOIN produit ON lignepromotion.idProduit = produit.id INNER JOIN tarif ON produit.id = tarif.idProduit WHERE lignepromotion.idPromotion = 1;
+	Erreur: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'INNER JOIN produit ON lignepromotion.idProduit = produit.id INNER JOIN tarif ON ' at line 1
+***Erreur SQL*** 2021-05-28 08-23-55 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des lignes de promotions. 
+	Sent SQL: [209] SELECT produit.id, designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromo FROM lignepromotion INNER JOIN produit ON lignepromotion.idProduit = produit.id WHERE lignepromotion.idPromotion = 1;
+	Erreur: 
+***Erreur SQL*** 2021-05-28 08-25-40 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des lignes de promotions. 
+	Sent SQL: [209] SELECT produit.id, designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromo FROM lignepromotion INNER JOIN produit ON lignepromotion.idProduit = produit.id WHERE lignepromotion.idPromotion = 1;
+	Erreur: 
+***Erreur SQL*** 2021-05-28 08-26-56 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des lignes de promotions. 
+	Sent SQL: [209] SELECT produit.id, designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromo FROM lignepromotion INNER JOIN produit ON lignepromotion.idProduit = produit.id WHERE lignepromotion.idPromotion = 1;
+	Erreur: 
+***Erreur SQL*** 2021-05-28 08-28-54 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [54] SELECT getprix(1, DATE('2020-05-20 18:03:39')) AS prix
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getprix'
+***Erreur SQL*** 2021-05-28 08-30-53 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [54] SELECT getprix(1, DATE('2020-05-20 18:03:39')) AS prix
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getprix'
+***Erreur SQL*** 2021-05-28 08-37-50 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [37] SELECT getprix(1, DATE(2020)) AS prix
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getprix'
+***Erreur SQL*** 2021-05-28 08-39-29 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [37] SELECT getPrix(1, DATE(2020)) AS prix
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getPrix'
+***Erreur SQL*** 2021-05-28 08-41-00 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [45] SELECT getPrix(1, DATE('2021-03-01')) AS prix
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getPrix'
+***Erreur SQL*** 2021-05-28 08-41-57 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [45] SELECT getPrix(1, DATE('2021-03-01')) AS prix
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getPrix'
+***Erreur SQL*** 2021-05-28 08-43-30 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	SQL: [64] SELECT bdbiocoop.getPrix(:idproduit, DATE('2021-03-01')) AS prix
+	Erreur: 
+***Erreur SQL*** 2021-05-28 08-43-54 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [55] SELECT bdbiocoop.getPrix(1, DATE('2021-03-01')) AS prix
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getPrix'
+***Erreur SQL*** 2021-05-28 08-45-08 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [56] SELECT bdbiocoop.getPrix(1, DATE('2021-03-01')) AS prix;
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getPrix'
+***Erreur SQL*** 2021-05-28 08-46-22 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [56] SELECT bdbiocoop.getPrix(1, DATE('2021-03-01')) AS prix;
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getPrix'
+***Erreur SQL*** 2021-05-28 08-47-17 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [56] SELECT bdbiocoop.getPrix(1, DATE('2021-03-01')) AS prix;
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getPrix'
+***Erreur SQL*** 2021-05-28 08-47-53 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [56] SELECT bdbiocoop.getPrix(1, DATE('2021-03-01')) AS prix;
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getPrix'
+***Erreur SQL*** 2021-05-28 08-48-42 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [58] SELECT bdbiocoop.getPrix('1', DATE('2021-03-01')) AS prix;
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getPrix'
+***Erreur SQL*** 2021-05-28 08-50-00 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [56] SELECT bdbiocoop.getPrix(1, DATE('2021-03-01')) AS prix;
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getPrix'
+***Erreur SQL*** 2021-05-28 08-50-44 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [56] SELECT bdbiocoop.getPrix(1, DATE('2021-03-01')) AS prix;
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getPrix'
+***Erreur SQL*** 2021-05-28 08-53-39 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [56] SELECT bdbiocoop.getPrix(1, DATE('2021-03-01')) AS prix;
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getPrix'
+***Erreur SQL*** 2021-05-28 08-55-19 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [56] SELECT bdbiocoop.getPrix(1, DATE('2021-03-01')) AS prix;
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getPrix'
+***Erreur SQL*** 2021-05-28 08-55-50 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [56] SELECT bdbiocoop.getPrix(1, DATE('2021-03-01')) AS prix;
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getPrix'
+***Erreur SQL*** 2021-05-28 08-56-11 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [56] SELECT bdbiocoop.getPrix(1, DATE('2021-03-01')) AS prix;
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getPrix'
+***Erreur SQL*** 2021-05-28 08-56-31 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [56] SELECT bdbiocoop.getPrix(1, DATE('2021-03-01')) AS prix;
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getPrix'
+***Erreur SQL*** 2021-05-28 09-00-47 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [56] SELECT bdbiocoop.getPrix(1, DATE('2021-03-01')) AS prix;
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getPrix'
+***Erreur SQL*** 2021-05-28 09-04-27 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	SQL: [56] SELECT bdbiocoop.getPrix(1, DATE('2021-03-01')) AS prix;
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getPrix'
+***Erreur SQL*** 2021-05-28 09-09-18 - IP: 127.0.0.1
+	Message: Pb lors de la recherche du prix de base des lignes de promotions. 
+	Sent SQL: [56] SELECT bdbiocoop.getPrix(1, DATE('2021-03-01')) AS prix;
+	Erreur: execute command denied to user 'publicBiocoop'@'localhost' for routine 'bdbiocoop.getPrix'
+***Erreur SQL*** 2021-05-28 09-46-39 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des lignes de promotions. 
+***Erreur SQL*** 2021-05-28 09-53-48 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des lignes de promotions. 
+	Sent SQL: [209] SELECT produit.id, designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromo FROM lignepromotion INNER JOIN produit ON lignepromotion.idProduit = produit.id WHERE lignepromotion.idPromotion = 1;
+	Erreur: 
+***Erreur SQL*** 2021-06-01 15-32-08 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des lignes de promotions. 
+	SQL: [45] SELECT getPrix(3, DATE('2020-12-01')) AS prix
+	Erreur: 
+***Erreur SQL*** 2021-06-01 15-36-22 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des lignes de promotions. 
+	SQL: [46] SELECT getPrix(3, DATE('2020-12-01')) AS prix;
+	Erreur: 
+***Erreur SQL*** 2021-06-01 15-37-29 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des lignes de promotions. 
+	SQL: [46] SELECT getPrix(3, DATE('2020-12-01')) AS prix;
+	Erreur: 
+***Erreur SQL*** 2021-06-01 16-26-44 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des promotions. 
+	Sent SQL: [209] SELECT produit.id, designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromo FROM lignepromotion INNER JOIN produit ON lignepromotion.idProduit = produit.id WHERE lignepromotion.idPromotion = 1;
+	Erreur: 
+***Erreur SQL*** 2021-06-01 16-27-02 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des promotions. 
+	Sent SQL: [209] SELECT produit.id, designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromo FROM lignepromotion INNER JOIN produit ON lignepromotion.idProduit = produit.id WHERE lignepromotion.idPromotion = 1;
+	Erreur: 
+***Erreur SQL*** 2021-06-01 16-34-21 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des promotions. 
+	Sent SQL: [209] SELECT produit.id, designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromo FROM lignepromotion INNER JOIN produit ON lignepromotion.idProduit = produit.id WHERE lignepromotion.idPromotion = 1;
+	Erreur: 
+***Erreur SQL*** 2021-06-01 16-35-52 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des promotions. 
+	Sent SQL: [209] SELECT produit.id, designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromo FROM lignepromotion INNER JOIN produit ON lignepromotion.idProduit = produit.id WHERE lignepromotion.idPromotion = 1;
+	Erreur: 
+***Erreur SQL*** 2021-06-01 16-40-40 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des promotions. 
+	Sent SQL: [209] SELECT produit.id, designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromo FROM lignepromotion INNER JOIN produit ON lignepromotion.idProduit = produit.id WHERE lignepromotion.idPromotion = 1;
+	Erreur: 
+***Erreur SQL*** 2021-06-01 16-41-51 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des promotions. 
+	Sent SQL: [209] SELECT produit.id, designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromo FROM lignepromotion INNER JOIN produit ON lignepromotion.idProduit = produit.id WHERE lignepromotion.idPromotion = 1;
+	Erreur: 
+***Erreur SQL*** 2021-06-01 16-42-05 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des promotions. 
+	Sent SQL: [209] SELECT produit.id, designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromo FROM lignepromotion INNER JOIN produit ON lignepromotion.idProduit = produit.id WHERE lignepromotion.idPromotion = 1;
+	Erreur: 
+***Erreur SQL*** 2021-06-01 16-42-44 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des promotions. 
+	Sent SQL: [209] SELECT produit.id, designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromo FROM lignepromotion INNER JOIN produit ON lignepromotion.idProduit = produit.id WHERE lignepromotion.idPromotion = 1;
+	Erreur: 
+***Erreur SQL*** 2021-06-01 16-43-32 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des promotions. 
+	Sent SQL: [209] SELECT produit.id, designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromo FROM lignepromotion INNER JOIN produit ON lignepromotion.idProduit = produit.id WHERE lignepromotion.idPromotion = 1;
+	Erreur: 
+***Erreur SQL*** 2021-06-01 16-44-07 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des promotions. 
+	Sent SQL: [209] SELECT produit.id, designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromo FROM lignepromotion INNER JOIN produit ON lignepromotion.idProduit = produit.id WHERE lignepromotion.idPromotion = 1;
+	Erreur: 
+***Erreur SQL*** 2021-06-01 16-46-07 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des promotions. 
+	Sent SQL: [209] SELECT produit.id, designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromo FROM lignepromotion INNER JOIN produit ON lignepromotion.idProduit = produit.id WHERE lignepromotion.idPromotion = 1;
+	Erreur: 
+***Erreur SQL*** 2021-06-01 16-47-20 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des promotions. 
+	Sent SQL: [209] SELECT produit.id, designation, lignepromotion.dateDebut, lignepromotion.dateFin, prixPromo FROM lignepromotion INNER JOIN produit ON lignepromotion.idProduit = produit.id WHERE lignepromotion.idPromotion = 1;
+	Erreur: 
+***Erreur SQL*** 2021-06-05 19-33-30 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des promotions. 
+	Sent SQL: [46] SELECT getPrix(1, DATE('20-05-2020')) AS prix;
+	Erreur: Incorrect datetime value: '20-05-2020'
+***Erreur SQL*** 2021-06-05 19-34-38 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des promotions. 
+	Sent SQL: [46] SELECT getPrix(1, DATE('20/05/2020')) AS prix;
+	Erreur: Incorrect datetime value: '20/05/2020'
+***Erreur SQL*** 2021-06-05 19-36-27 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des promotions. 
+	Sent SQL: [46] SELECT getPrix(1, DATE('20/05/2020')) AS prix;
+	Erreur: Incorrect datetime value: '20/05/2020'

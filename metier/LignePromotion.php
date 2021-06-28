@@ -6,24 +6,37 @@
  */
 
 class LignePromotion {
-
+    
+    private $_id;
+    private $_designation; // le produit concerné par la ligne (objet Produit)
     private $_dateDebut; // la date de début de la promotion pour le produit
     private $_dateFin; // la date de fin de la promotion pour le produit
     private $_prix; // le prix du produit pendant la promotion
     private $_prixBase; // le prix du produit sans promotion
-    private $_leProduit; // le produit concerné par la ligne (objet Produit)
+    private $_pourcentage=0;
 
     // le constructeur
-    public function __construct($unProduit, $uneDateDebut, $uneDateFin, $unPrix, $unPrixBase) {
-        $this->setLeProduit($unProduit);
+    public function __construct($id, $designation, $uneDateDebut, $uneDateFin, $unPrix, $unPrixBase) {
+        $this->setId($id);
+        $this->setDesignation($designation);
         $this->setDateDebut($uneDateDebut);
         $this->setDateFin($uneDateFin);
         $this->setPrix($unPrix);
         $this->setPrixBase($unPrixBase);
+        $this->_pourcentage = $this->getPourcentageReduction();
     }
-
-    // les accesseurs
+    
+    public function id() {
+        return $this->_id;
+    }
+    
+    public function designation() {
+        return $this->_designation;
+    }
+    
+    // les accesseurs  date_format($this->_dateDebut, 'd/m/Y') date_format($date, "d-m-Y")
     public function dateDebut() {
+        //$date = Date.parse($this->_dateDebut);
         return $this->_dateDebut;
     }
 
@@ -34,11 +47,24 @@ class LignePromotion {
     public function prix() {
         return $this->_prix;
     }
-
-    public function leProduit() {
-        return $this->_leProduit;
+    
+    function prixBase() {
+        return $this->_prixBase;
+    }
+    
+    function pourcentage(){
+        return $this->_pourcentage;
     }
 
+
+    function setId($id): void {
+        $this->_id = $id;
+    }
+    
+    function setDesignation($designation): void {
+        $this->_designation = $designation;
+    }
+    
     function setDateDebut($dateDebut): void {
         $this->_dateDebut = $dateDebut;
     }
@@ -48,19 +74,11 @@ class LignePromotion {
     }
 
     function setPrix($tarif): void {
-        $this->_prix = $tarif;
-    }
-
-    function setLeProduit($leProduit): void {
-        $this->_leProduit = $leProduit;
-    }
-
-    function prixBase() {
-        return $this->_prixBase;
+        $this->_prix = number_format($tarif, 2, '.', '');
     }
 
     function setPrixBase($prixBase): void {
-        $this->_prixBase = $prixBase;
+        $this->_prixBase = number_format($prixBase, 2, '.', '');
     }
 
     /**
@@ -74,7 +92,7 @@ class LignePromotion {
         return number_format($pourcentage, 2, '.', '');
         }
         else{
-            return "Prix du produit en promotion incorrect";
+            return "-";
         }
     }
 

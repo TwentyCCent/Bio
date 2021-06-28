@@ -1,12 +1,12 @@
 <?php
-require '../../controleur/AnneesDonsControleur.php';
+require_once '../../controleur/DonControleur.php';
 
-$anneeCtrl = new AnneesDonsControleur();
+$anneeCtrl = new DonControleur();
 $lesAnnees = $anneeCtrl->getAnneesDons();
 
 foreach ($lesAnnees as $anneeDon) {
 //    if ($anneeDon === max($lesAnnees)) {
-//        echo "<option value=$anneeDon>$anneeDon</option>";
+//        echo "<option value=$anneeDon >$anneeDon</option>";
 //    }
 //    else
 //    {

@@ -1,11 +1,21 @@
 <?php
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 900)) {
+    // last request was more than 15 minutes ago (900 seconds)
+    session_unset();     // unset $_SESSION variable for the run-time 
+    session_destroy();   // destroy session data in storage
+}
+$_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
 // finPage.php
 // Fin de chaque page
 ?>
-           </div> <!-- fin container  -->
-
-        <footer class="footer">
-        </footer>
+            </div>
+        </div>
+        <div class="row">
+            <footer class="footer">
+            </footer>
+        </div>
+<!--        <script rel="javascript" src="../js/event.js" type="text/javascript"></script>-->
+        <script rel="javascript" src="/Biocoop/vue/js/CalendarControl.js" type="text/javascript"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
     </body>

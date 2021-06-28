@@ -11,5 +11,7 @@ spl_autoload_register("chargerClasse");
  * @param type $classe
  */
 function chargerClasse($classe) {
-    require "../metier/".$classe.".php";
+    //require "../metier/".$classe.".php";    
+    require "../../metier/".$classe.".php";
+    
 }

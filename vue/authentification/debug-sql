@@ -1,0 +1,29 @@
+
+***Erreur SQL*** 2021-05-23 21-33-43 - IP: 127.0.0.1
+	Message: Pb lors de la recherche des promotions. 
+	Sent SQL: [62] SELECT * FROM users WHERE adresseMail = 'reves.ayez@yahoo.fr';
+	Erreur: Unknown column 'adresseMail' in 'where clause'
+***Erreur SQL*** 2021-05-23 21-36-34 - IP: 127.0.0.1
+	Message: Pb lors de votre connexion. 
+	Sent SQL: [62] SELECT * FROM users WHERE adresseMail = 'reves.ayez@yahoo.fr';
+	Erreur: Unknown column 'adresseMail' in 'where clause'
+***Erreur SQL*** 2021-05-23 21-36-44 - IP: 127.0.0.1
+	Message: Pb lors de votre connexion. 
+	Sent SQL: [62] SELECT * FROM users WHERE adresseMail = 'reves.ayez@yahoo.fr';
+	Erreur: Unknown column 'adresseMail' in 'where clause'
+***Erreur SQL*** 2021-06-23 12-30-09 - IP: 127.0.0.1
+	Message: Pb lors de votre connexion. 
+	Sent SQL: [184] INSERT INTO users (`civilite`, `nom`, `prenom`, `adresseMail`, `password`, `statut`) VALUES (NULL, NULL, NULL, NULL, '$2y$10$oOOPXDivxjQ1EHiQjQGstelXeJRwkjOAyJ7OSINCE8Qtj/PMlPhJ.', 2);
+	Erreur: Column 'civilite' cannot be null
+***Erreur SQL*** 2021-06-23 12-33-52 - IP: 127.0.0.1
+	Message: Pb lors de votre connexion. 
+	Sent SQL: [184] INSERT INTO users (`civilite`, `nom`, `prenom`, `adresseMail`, `password`, `statut`) VALUES (NULL, NULL, NULL, NULL, '$2y$10$ZRpMCvXER6nTvOxc.1bxQe319aLyydzEeLIZRzTvGSgl./uBEiRpm', 2);
+	Erreur: Column 'civilite' cannot be null
+***Erreur SQL*** 2021-06-23 12-36-34 - IP: 127.0.0.1
+	Message: Pb lors de votre connexion. 
+	Sent SQL: [194] INSERT INTO users (`civilite`, `nom`, `prenom`, `adresseMail`, `password`, `statut`) VALUES (NULL, NULL, NULL, 'gg@gmail.com', '$2y$10$Znvp/Z5iTrBp70JIBWa7TeRw3zTSzkSZomsAfp1jaJ8ORaQf8p5dq', 2);
+	Erreur: Column 'civilite' cannot be null
+***Erreur SQL*** 2021-06-23 12-38-36 - IP: 127.0.0.1
+	Message: Pb lors de votre connexion. 
+	Sent SQL: [196] INSERT INTO users (`civilite`, `nom`, `prenom`, `adresseMail`, `password`, `statut`) VALUES (NULL, 'ggg', 'ggg', 'gg@gmail.com', '$2y$10$wlffCmpyCD8AQ5LJyyjXYOsjYTq61KhebY7RJS9oD4Ink2LXqW6/K', 2);
+	Erreur: Column 'civilite' cannot be null

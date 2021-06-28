@@ -1,18 +1,22 @@
 <?php
 
-require '../../controleur/DonControleur.php';
-//require_once 'chargementClasses.php';
+require_once '../../controleur/DonControleur.php';
 
-// Recherche si une année est sélectionnée
-if (isset($_GET['selectAnnee']) && isset($_GET['validAnnee'])) 
-{
-    afficherRapport();
-}
 
-function afficherRapport() {
+
+$annee = "";
+
     
-    $annee = $_GET['selectAnnee'];
+    if(isset($_GET['selectAnnee'])){
+        $annee = $_GET['selectAnnee'];
+    }
+    afficherRapport($annee);
+
+
+function afficherRapport($annee) {
     $donCtrl = new DonControleur();
     $lesDons = $donCtrl->getDons($annee);
     echo $lesDons;
 }
+
+

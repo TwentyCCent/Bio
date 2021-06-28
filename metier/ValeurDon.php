@@ -19,7 +19,8 @@ class ValeurDon {
     }
 
     function montant() {
-        return $this->_montant;
+        $result = number_format($this->_montant, 2);
+        return $result;
     }
     
     function setLibelle($libelle): void {

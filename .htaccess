@@ -1,0 +1,21 @@
+
+
+ErrorDocument 404 /Biocoop/vue/erreur/404.php
+
+
+Options -Indexes
+
+# Redirection simple
+# Redirect / localhost/Biocoop/
+
+# protect .htaccess et .htpasswd Commander autoriser, refuser Refuser de tout Satisfaire tout
+
+# On autorise l'accès à l'ip 213.228.62.50
+# Allow from 192.168.0.12
+# On autorise l'accès à l'ip 213.228.62.51
+# Allow from 192.168.56.1
+Allow from 127.0.0.1
+
+Allow from 91.164.251.203
+# On interdit l'accès à toutes les autres ips
+# Deny from All
